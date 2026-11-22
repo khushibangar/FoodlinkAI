@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FoodLink AI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#eef3ee;--card:#fff;--ink:#14291f;--mute:#5a6b61;--line:#d5dfd7;--pine:#14532d;--pine2:#dcefe1;--hot:#d9431e;--hot2:#fde4dc;--sun:#e8a317;--sun2:#fbf0d3;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a14;--card:#17261d;--ink:#e6f0e8;--mute:#9bb0a2;--line:#2a3d31;--pine:#5fcf8a;--pine2:#1d3a29;--hot:#ff7a55;--hot2:#3d211a;--sun:#f0b73a;--sun2:#3a2f14;--on:#0f1a14;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1a14;--card:#17261d;--ink:#e6f0e8;--mute:#9bb0a2;--line:#2a3d31;--pine:#5fcf8a;--pine2:#1d3a29;--hot:#ff7a55;--hot2:#3d211a;--sun:#f0b73a;--sun2:#3a2f14;--on:#0f1a14;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+button,input,select{font:inherit;color:inherit}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;max-width:1040px;margin:0 auto;flex-wrap:wrap}
+.logo{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:-.02em}.logo span{color:var(--pine)}
+nav{display:flex;gap:4px;overflow-x:auto;max-width:100%}
+nav a{padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--mute);font-weight:600;white-space:nowrap}
+nav a[aria-current=page]{background:var(--pine);color:var(--on)}
+nav a:hover{color:var(--ink)}nav a[aria-current=page]:hover{color:var(--on)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+main{max-width:1040px;margin:0 auto;padding:8px 20px 56px}
+.hero{background:var(--pine);color:var(--on);border-radius:24px;padding:36px 28px;display:grid;gap:24px;grid-template-columns:1.3fr 1fr;align-items:center}
+.hero h1{font-size:clamp(32px,6vw,54px);font-weight:800;letter-spacing:-.03em}
+.hero p{margin:14px 0 22px;max-width:46ch;opacity:.92}
+.live{background:rgba(255,255,255,.12);border-radius:18px;padding:18px}
+:root:not([data-theme="light"]) .live{background:rgba(0,0,0,.14)}
+.live b{display:block;font:800 40px "Bricolage Grotesque",sans-serif}
+.live small{opacity:.85}
+.btn{border:0;border-radius:12px;padding:11px 18px;font-weight:600;cursor:pointer;background:var(--pine);color:var(--on)}
+.btn.alt{background:transparent;border:1.5px solid currentColor}
+.hero .btn{background:var(--on);color:var(--pine)}
+.hero .btn.alt{background:transparent;color:var(--on)}
+.btn.sm{padding:7px 12px;font-size:14px}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h3{font-size:19px}
+.muted{color:var(--mute);font-size:14px}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;background:var(--pine2);color:var(--pine)}
+.pill.hot{background:var(--hot2);color:var(--hot)}.pill.sun{background:var(--sun2);color:var(--sun)}
+.sec{margin-top:30px}.sec h2{font-size:28px;margin-bottom:4px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.step{border-top:4px solid var(--pine);padding-top:8px}.step b{display:block}
+.step small{color:var(--mute)}
+form{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin-top:16px}
+label{display:grid;gap:4px;font-weight:600;font-size:14px}
+input,select{padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);width:100%}
+.full{grid-column:1/-1}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500}.check input{width:20px;height:20px;margin-top:2px}
+.notice{padding:12px 14px;border-radius:12px;background:var(--sun2);font-size:14px}
+.notice.bad{background:var(--hot2);color:var(--hot)}
+.rank{margin-top:12px;display:grid;gap:8px}
+.rec{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;flex-wrap:wrap}
+.rec.no{opacity:.6}
+.track{display:flex;gap:0;margin:14px 0 6px}
+.dot{flex:1;text-align:center;font-size:12px;color:var(--mute);position:relative;padding-top:20px}
+.dot:before{content:"";position:absolute;top:4px;left:0;right:0;height:4px;background:var(--line)}
+.dot:after{content:"";position:absolute;top:0;left:calc(50% - 6px);width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.done{color:var(--ink)}.dot.done:before,.dot.done:after{background:var(--pine)}
+.stats{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.stat b{display:block;font:800 38px "Bricolage Grotesque",sans-serif;color:var(--pine)}
+.empty{padding:28px;text-align:center;border:1.5px dashed var(--line);border-radius:16px;color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;z-index:5}
+.scroll{overflow-x:auto}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}form{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--pine)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Food<span>Link</span> AI</div>
+  <nav id="nav" aria-label="Main"></nav>
+</header>
+<main id="app"></main>
+<script>
+const RECIPIENTS=[
+ {id:'r1',name:'Annapurna Community Kitchen',km:2.1,cap:40,cold:true,takes:['cooked','bakery','produce','packaged']},
+ {id:'r2',name:'Hope Shelter Home',km:4.8,cap:25,cold:false,takes:['cooked','bakery','packaged']},
+ {id:'r3',name:'Seva Foundation Food Bank',km:6.3,cap:120,cold:true,takes:['produce','packaged','bakery']},
+ {id:'r4',name:'Sunrise Student Hostel',km:1.2,cap:12,cold:false,takes:['cooked','bakery']}
+];
+const CATS={
+ cooked:{label:'Cooked meals',hint:'Keep hot above 60 °C or chilled below 5 °C. Use covered, food-safe containers.'},
+ bakery:{label:'Bakery items',hint:'Store in a dry, covered container. Label with the baking date.'},
+ produce:{label:'Fresh produce',hint:'Keep cool and dry. Remove spoiled pieces before packing.'},
+ packaged:{label:'Sealed packaged food',hint:'Keep sealed in the original packaging. Check the printed date.'}
+};
+// Starter safe-use windows in hours. Donors must confirm against local food-safety rules.
+const WINDOW={cooked:{hot:3,cold:24,room:2},bakery:{hot:12,cold:48,room:24},produce:{hot:24,cold:72,room:24},packaged:{hot:48,cold:96,room:72}};
+const H=36e5,STEPS=['Accepted','Pickup','In transit','Delivered'];
+const now=()=>Date.now();
+let S;
+const seed=()=>({listings:[
+ {id:'l1',name:'Veg biryani',cat:'cooked',qty:18,storage:'hot',donor:'Saffron Banquet Hall',deadline:now()+2.5*H,status:'open'},
+ {id:'l2',name:'Whole wheat bread loaves',cat:'bakery',qty:9,storage:'room',donor:'Daily Oven Bakery',deadline:now()+14*H,status:'open'},
+ {id:'l3',name:'Mixed vegetables',cat:'produce',qty:55,storage:'cold',donor:'Green Basket Mart',deadline:now()+40*H,status:'open'}
+],tasks:[],failed:0,done:[]});
+try{S=JSON.parse(localStorage.getItem('foodlink')||'null')}catch(e){}
+S=S||seed();
+const save=()=>{try{localStorage.setItem('foodlink',JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function left(l){const m=l.deadline-now();if(m<=0)return'Expired';const h=Math.floor(m/H),mm=Math.floor(m%H/6e4);return h?h+' h '+mm+' min left':mm+' min left'}
+function urg(l){const h=(l.deadline-now())/H;return h<=0?['Expired','hot']:h<4?['Urgent','hot']:h<24?['Soon','sun']:['Fresh window','']}
+function toast(t){const e=document.createElement('div');e.className='toast';e.setAttribute('role','status');e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2400)}
+function rank(l){
+ return RECIPIENTS.map(r=>{
+  const why=[];
+  if(!r.takes.includes(l.cat))why.push('does not accept '+CATS[l.cat].label.toLowerCase());
+  if(l.storage==='cold'&&!r.cold)why.push('no cold storage');
+  if(r.cap<l.qty)why.push('capacity '+r.cap+' kg is below '+l.qty+' kg');
+  return {r,why,ok:!why.length};
+ }).sort((a,b)=>(b.ok-a.ok)||(a.r.km-b.r.km));
+}
+const open=()=>S.listings.filter(l=>l.status==='open'&&l.deadline>now());
+const ROUTES=[['home','Home'],['donate','Donate food'],['find','Find food'],['track','Track'],['impact','Impact']];
+function route(){return(location.hash.slice(1)||'home')}
+function render(){
+ const r=ROUTES.some(x=>x[0]===route())?route():'home';
+ $('#nav').innerHTML=ROUTES.map(([k,t])=>`<a href="#${k}" ${k===r?'aria-current="page"':''}>${t}</a>`).join('');
+ $('#app').innerHTML=VIEWS[r]();
+ if(VIEWS[r+'Init'])VIEWS[r+'Init']();
+}
+const VIEWS={
+home(){const kg=S.done.reduce((a,d)=>a+d.qty,0);
+ return `<section class="hero"><div><h1>Rescue surplus food before it spoils.</h1><p>List extra food, get matched with a verified NGO or community kitchen nearby, and follow the pickup until it is delivered.</p>
+ <div class="row"><a href="#donate"><button class="btn">Donate food</button></a><a href="#find"><button class="btn alt">Find food</button></a></div></div>
+ <div class="live"><b>${open().length}</b><small>donations waiting for a match</small><hr style="border:0;border-top:1px solid rgba(255,255,255,.25);margin:14px 0"><b>${kg} kg</b><small>delivered so far</small></div></section>
+ <section class="sec"><h2>How it works</h2><div class="steps">
+ <div class="step"><b>Donor</b><small>Lists food, quantity and storage.</small></div>
+ <div class="step"><b>Check</b><small>Records and urgency are checked. Food safety is not certified by the app.</small></div>
+ <div class="step"><b>Match</b><small>Eligible recipients are ranked. A person confirms.</small></div>
+ <div class="step"><b>Pickup</b><small>A volunteer accepts and collects.</small></div>
+ <div class="step"><b>Deliver</b><small>Recipient confirms. Impact updates.</small></div></div></section>
+ <section class="sec"><h2>Waiting now</h2><div class="grid">${open().map(card).join('')||'<div class="empty full">No open donations. <a href="#donate">Add one</a>.</div>'}</div></section>`},
+donate(){return `<h2 style="font-size:32px;margin-top:10px">Donate food</h2><p class="muted">The safe-use deadline is calculated from the food type and storage. You confirm it before listing.</p>
+ <form id="f" novalidate>
+ <label>Food name<input name="name" required placeholder="e.g. Dal and rice"></label>
+ <label>Food type<select name="cat">${Object.entries(CATS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}</select></label>
+ <label>Quantity (kg)<input name="qty" type="number" min="1" step="0.5" required></label>
+ <label>How is it stored?<select name="storage"><option value="hot">Kept hot</option><option value="cold">Refrigerated</option><option value="room">Room temperature</option></select></label>
+ <label>Prepared or bought<input name="made" type="datetime-local" required></label>
+ <label>Donor name<input name="donor" required placeholder="Restaurant, shop or event"></label>
+ <div class="full notice" id="hint"></div>
+ <div class="full notice" id="dl"></div>
+ <label class="check full"><input type="checkbox" name="known"> I know how this food was stored and handled since it was made.</label>
+ <div class="full notice bad" id="err" hidden></div>
+ <div class="full"><button class="btn" type="submit">List this food</button></div></form>`},
+donateInit(){
+ const f=$('#f'),m=new Date(now()-new Date().getTimezoneOffset()*6e4);f.made.value=m.toISOString().slice(0,16);
+ const upd=()=>{$('#hint').textContent=CATS[f.cat.value].hint;const d=dl();$('#dl').textContent=d>now()?'Safe-use deadline: '+new Date(d).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})+'. This is a starter limit. Check it against local food-safety rules.':'This window has already passed. It cannot be listed.'};
+ const dl=()=>new Date(f.made.value).getTime()+WINDOW[f.cat.value][f.storage.value]*H;
+ f.addEventListener('input',upd);upd();
+ f.addEventListener('submit',e=>{e.preventDefault();const er=$('#err');er.hidden=true;
+  const bad=!f.name.value.trim()?'Enter the food name.':!f.donor.value.trim()?'Enter the donor name.':!(+f.qty.value>0)?'Enter a quantity above 0 kg.':!f.made.value?'Enter when the food was prepared.':!f.known.checked?'Food with uncertain handling cannot be donated. Confirm the handling history to continue.':dl()<=now()?'The safe-use window has passed. This food cannot be listed.':'';
+  if(bad){er.textContent=bad;er.hidden=false;return}
+  S.listings.unshift({id:'l'+now(),name:f.name.value.trim(),cat:f.cat.value,qty:+f.qty.value,storage:f.storage.value,donor:f.donor.value.trim(),deadline:dl(),status:'open'});
+  save();toast('Food listed');location.hash='find'})},
+find(){const ls=open();return `<h2 style="font-size:32px;margin-top:10px">Find food</h2><p class="muted">Recipients are ranked by eligibility first, then distance. Choose one to confirm the match.</p>
+ <div class="grid">${ls.map(l=>card(l,true)).join('')||'<div class="empty full">No open donations right now. Check back soon or <a href="#donate">list food</a>.</div>'}</div>`},
+track(){const t=S.tasks;return `<h2 style="font-size:32px;margin-top:10px">Track pickups</h2><p class="muted">Accepted, pickup, in transit, delivered.</p>
+ <div class="grid">${t.map(k=>{const l=S.listings.find(x=>x.id===k.lid),r=RECIPIENTS.find(x=>x.id===k.rid);if(!l)return'';
+ return `<div class="card"><h3>${esc(l.name)} · ${l.qty} kg</h3><div class="muted">${esc(l.donor)} to ${esc(r.name)} (${r.km} km)</div>
+ <div class="track">${STEPS.map((s,i)=>`<div class="dot ${i<=k.step?'done':''}">${s}</div>`).join('')}</div>
+ ${k.state==='failed'?'<span class="pill hot">Cancelled</span>':k.step>=3?'<span class="pill">Delivery confirmed</span>':`<div class="row"><button class="btn sm" data-adv="${k.id}">Mark as ${STEPS[k.step+1].toLowerCase()}</button><button class="btn sm alt" data-cancel="${k.id}">Cancel pickup</button></div>`}</div>`}).join('')||'<div class="empty full">No pickups yet. Confirm a match under <a href="#find">Find food</a>.</div>'}</div>`},
+trackInit(){
+ document.querySelectorAll('[data-adv]').forEach(b=>b.onclick=()=>{const k=S.tasks.find(x=>x.id===b.dataset.adv);k.step++;
+  if(k.step===3){const l=S.listings.find(x=>x.id===k.lid);S.done.push({qty:l.qty});toast('Delivery confirmed')}save();render()});
+ document.querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>{const k=S.tasks.find(x=>x.id===b.dataset.cancel);k.state='failed';S.failed++;
+  const l=S.listings.find(x=>x.id===k.lid);l.status='open';S.tasks=S.tasks.filter(x=>x!==k);save();toast('Pickup cancelled. Food is open again.');render()})},
+impact(){const kg=S.done.reduce((a,d)=>a+d.qty,0),n=S.done.length;
+ return `<h2 style="font-size:32px;margin-top:10px">Impact</h2><p class="muted">Counted from completed deliveries only.</p>
+ <div class="stats" style="margin-top:16px"><div class="card stat"><b>${n}</b>donations completed</div><div class="card stat"><b>${kg}</b>kg rescued</div><div class="card stat"><b>~${Math.round(kg*2.5)}</b>meals (estimate, 2.5 per kg)</div><div class="card stat"><b>${S.failed}</b>failed pickups</div></div>
+ <p class="muted" style="margin-top:16px">Carbon savings are not shown because there is no verified method yet.</p>
+ <button class="btn alt sm" id="reset">Reset demo data</button>`},
+impactInit(){$('#reset').onclick=()=>{S=seed();save();toast('Demo data reset');render()}}
+};
+function card(l,withMatch){const u=urg(l);
+ let m='';
+ if(withMatch){m='<div class="rank">'+rank(l).map((x,i)=>`<div class="rec ${x.ok?'':'no'}"><div><b>${esc(x.r.name)}</b><div class="muted">${x.r.km} km · up to ${x.r.cap} kg${x.ok?'':' · '+x.why.join(', ')}</div></div>${x.ok?`<button class="btn sm" data-match="${l.id}|${x.r.id}">${i===0?'Confirm best match':'Choose'}</button>`:'<span class="pill hot">Not eligible</span>'}</div>`).join('')+'</div>'}
+ return `<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(l.name)}</h3><span class="pill ${u[1]}">${u[0]}</span></div>
+ <div class="muted">${esc(l.donor)} · ${l.qty} kg · ${CATS[l.cat].label}</div><div style="margin-top:6px"><b>${left(l)}</b></div>${m}</div>`}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-match]');if(!b)return;
+ const[lid,rid]=b.dataset.match.split('|'),l=S.listings.find(x=>x.id===lid);l.status='matched';
+ S.tasks.unshift({id:'t'+now(),lid,rid,step:0});save();toast('Match confirmed. Pickup is open for a volunteer.');location.hash='track'});
+window.addEventListener('hashchange',render);
+setInterval(()=>{if(['home','find'].includes(route()||'home')&&!document.activeElement.closest('form'))render()},60000);
+render();
+</script>
+</body>
+</html>
